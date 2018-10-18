@@ -20,13 +20,16 @@ class Cell extends React.Component {
   }
 }
 
+const columnHeadings = n =>
+  range(n).map(index => String.fromCharCode(65 + index));
+
 const Spreadsheet = p => (
   <table>
     <tbody>
       <tr>
         <th>&nbsp;</th>
-        {range(p.columns.length).map(columnIndex => (
-          <th key={`col-${columnIndex}`}>{columnIndex + 1}</th>
+        {columnHeadings(p.columns.length).map(heading => (
+          <th key={heading}>{heading}</th>
         ))}
       </tr>
       {transpose(p.columns).map((row, rowIndex) => (
