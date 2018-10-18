@@ -1,14 +1,18 @@
-const cell = value => ({ value });
-const row = () => [cell("bla"), cell("blo"), cell("ble")];
+import { cell, row, sheet } from "./datastructure";
+
 const INITIAL_STATE = {
-  columns: [row(), row(), row()]
+  sheet: sheet([
+    row([cell("A1"), cell("A2")]),
+    row([cell("B1"), cell("B2")]),
+    row([cell("C2"), cell("C2")])
+  ])
 };
 
 function reducer(state = INITIAL_STATE, action) {
   if (action.type === "CELL_EDITED") {
     return {
       ...state,
-      columns: state.columns.map(
+      sheet: state.sheet.map(
         (row, columnIndex) =>
           columnIndex === action.payload.columnIndex
             ? [

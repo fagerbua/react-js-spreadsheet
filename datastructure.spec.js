@@ -1,7 +1,6 @@
-import { forTesting } from "./Spreadsheet";
+import { transpose } from "./datastructure";
 
 describe("Matrix transposition", () => {
-  const { transpose } = forTesting;
   test("transpose function turns rows into columns", () => {
     const columns = [
       [{ value: "col-1-row-1" }, { value: "col-1-row-2" }],

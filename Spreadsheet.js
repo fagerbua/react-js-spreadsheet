@@ -1,14 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { transpose } from "./datastructure";
 import range from "lodash/range";
-
-const numberOfRows = columns =>
-  Math.max(...columns.map(column => column.length));
-
-const transpose = columns =>
-  range(numberOfRows(columns)).map(rowIndex =>
-    range(columns.length).map(columnIndex => columns[columnIndex][rowIndex])
-  );
 
 class Cell extends React.Component {
   constructor(props) {
@@ -56,7 +49,7 @@ const Spreadsheet = p => (
 );
 
 const ConnectedSpreadsheet = connect(
-  state => ({ columns: state.columns }),
+  state => ({ columns: state.sheet }),
   dispatch => ({
     updateCell: args => {
       dispatch({ type: "CELL_EDITED", payload: { ...args } });
