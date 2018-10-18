@@ -54,8 +54,8 @@ const Spreadsheet = p => (
 const ConnectedSpreadsheet = connect(
   state => ({ columns: state.sheet }),
   dispatch => ({
-    updateCell: args => {
-      dispatch({ type: "CELL_EDITED", payload: { ...args } });
+    updateCell: editedCell => {
+      dispatch({ type: "CELL_EDITED", payload: { editedCell } });
     }
   })
 )(Spreadsheet);
