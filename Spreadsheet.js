@@ -10,6 +10,23 @@ const transpose = columns =>
     range(columns.length).map(columnIndex => columns[columnIndex][rowIndex])
   );
 
+class Cell extends React.Component {
+  constructor(props) {
+    super();
+    this.state = { displayedValue: props.value };
+  }
+  render() {
+    return (
+      <input
+        type="text"
+        value={this.state.displayedValue}
+        onChange={e => this.setState({ displayedValue: e.target.value })}
+        onBlur={() => this.props.storeValue(this.state.displayedValue)}
+      />
+    );
+  }
+}
+
 const Spreadsheet = p => (
   <table>
     <tbody>
@@ -24,7 +41,12 @@ const Spreadsheet = p => (
           <th>{rowIndex + 1}</th>
           {row.map((column, columnIndex) => (
             <td key={`row-${rowIndex}-col-${columnIndex}`}>
-              {row[columnIndex].value}
+              <Cell
+                value={row[columnIndex].value}
+                storeValue={value =>
+                  p.updateCell({ columnIndex, rowIndex, value })
+                }
+              />
             </td>
           ))}
         </tr>
@@ -33,9 +55,14 @@ const Spreadsheet = p => (
   </table>
 );
 
-const ConnectedSpreadsheet = connect(state => ({ columns: state.columns }))(
-  Spreadsheet
-);
+const ConnectedSpreadsheet = connect(
+  state => ({ columns: state.columns }),
+  dispatch => ({
+    updateCell: args => {
+      dispatch({ type: "CELL_EDITED", payload: { ...args } });
+    }
+  })
+)(Spreadsheet);
 
 export const forTesting = { transpose };
 

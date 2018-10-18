@@ -5,6 +5,21 @@ const INITIAL_STATE = {
 };
 
 function reducer(state = INITIAL_STATE, action) {
+  if (action.type === "CELL_EDITED") {
+    return {
+      ...state,
+      columns: state.columns.map(
+        (row, columnIndex) =>
+          columnIndex === action.payload.columnIndex
+            ? [
+                ...row.slice(0, action.payload.rowIndex),
+                cell(action.payload.value),
+                ...row.slice(action.payload.rowIndex + 1)
+              ]
+            : row
+      )
+    };
+  }
   return state;
 }
 
