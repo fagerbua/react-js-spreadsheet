@@ -5,6 +5,11 @@ import range from "lodash/range";
 const numberOfRows = columns =>
   Math.max(...columns.map(column => column.length));
 
+const transpose = columns =>
+  range(numberOfRows(columns)).map(rowIndex =>
+    range(columns.length).map(columnIndex => columns[columnIndex][rowIndex])
+  );
+
 const Spreadsheet = p => (
   <table>
     <tbody>
@@ -14,12 +19,12 @@ const Spreadsheet = p => (
           <th key={`col-${columnIndex}`}>{columnIndex + 1}</th>
         ))}
       </tr>
-      {range(numberOfRows(p.columns)).map(rowIndex => (
+      {transpose(p.columns).map((row, rowIndex) => (
         <tr key={`row-${rowIndex}`}>
           <th>{rowIndex + 1}</th>
-          {range(p.columns.length).map(columnIndex => (
+          {row.map((column, columnIndex) => (
             <td key={`row-${rowIndex}-col-${columnIndex}`}>
-              {p.columns[columnIndex][rowIndex].value}
+              {row[columnIndex].value}
             </td>
           ))}
         </tr>
@@ -31,5 +36,7 @@ const Spreadsheet = p => (
 const ConnectedSpreadsheet = connect(state => ({ columns: state.columns }))(
   Spreadsheet
 );
+
+export const forTesting = { transpose };
 
 export default ConnectedSpreadsheet;
