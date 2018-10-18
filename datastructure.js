@@ -14,14 +14,14 @@ export const transpose = columns =>
 
 export const editedSheet = (sheet, editedCell) =>
   sheet.map(
-    (row, columnIndex) =>
+    (column, columnIndex) =>
       columnIndex === editedCell.columnIndex
         ? [
-            ...row.slice(0, editedCell.rowIndex),
+            ...column.slice(0, editedCell.rowIndex),
             cell(editedCell.value),
-            ...row.slice(editedCell.rowIndex + 1)
+            ...column.slice(editedCell.rowIndex + 1)
           ]
-        : row
+        : column
   );
 
 export const editedCell = args => ({

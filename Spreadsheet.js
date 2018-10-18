@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { editedCell, transpose } from "./datastructure";
+import { transpose } from "./datastructure";
 import range from "lodash/range";
 
 class Cell extends React.Component {
@@ -35,12 +35,12 @@ const Spreadsheet = p => (
       {transpose(p.columns).map((row, rowIndex) => (
         <tr key={`row-${rowIndex}`}>
           <th>{rowIndex + 1}</th>
-          {row.map((column, columnIndex) => (
+          {row.map((cell, columnIndex) => (
             <td key={`row-${rowIndex}-col-${columnIndex}`}>
               <Cell
-                value={row[columnIndex].value}
+                value={cell.value}
                 storeValue={value =>
-                  p.updateCell(editedCell({ columnIndex, rowIndex, value }))
+                  p.updateCell({ columnIndex, rowIndex, value })
                 }
               />
             </td>
