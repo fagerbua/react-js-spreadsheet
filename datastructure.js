@@ -12,7 +12,7 @@ export const transpose = columns =>
     range(columns.length).map(columnIndex => columns[columnIndex][rowIndex])
   );
 
-export const modifiedSheet = (sheet, editedCell) =>
+export const editedSheet = (sheet, editedCell) =>
   sheet.map(
     (row, columnIndex) =>
       columnIndex === editedCell.columnIndex
@@ -23,3 +23,9 @@ export const modifiedSheet = (sheet, editedCell) =>
           ]
         : row
   );
+
+export const editedCell = args => ({
+  rowIndex: args.rowIndex,
+  columnIndex: args.columnIndex,
+  value: args.value
+});

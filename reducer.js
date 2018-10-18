@@ -1,4 +1,4 @@
-import { cell, row, sheet, modifiedSheet } from "./datastructure";
+import { cell, row, sheet, editedSheet } from "./datastructure";
 
 const INITIAL_STATE = {
   sheet: sheet([
@@ -12,7 +12,7 @@ function reducer(state = INITIAL_STATE, action) {
   if (action.type === "CELL_EDITED") {
     return {
       ...state,
-      sheet: modifiedSheet(state.sheet, action.payload.editedCell)
+      sheet: editedSheet(state.sheet, action.payload.editedCell)
     };
   }
   return state;
