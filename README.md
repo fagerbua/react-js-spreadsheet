@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/fagerbua/react-js-spreadsheet.svg?branch=master)](https://travis-ci.com/fagerbua/react-js-spreadsheet)
+[![codecov](https://codecov.io/gh/fagerbua/react-js-spreadsheet/branch/master/graph/badge.svg)](https://codecov.io/gh/fagerbua/react-js-spreadsheet)
 
 # react-js-spreadsheet
 
