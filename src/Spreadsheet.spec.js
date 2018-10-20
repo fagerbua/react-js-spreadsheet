@@ -37,6 +37,26 @@ describe("Spreadsheet UI", () => {
     expect(cells.at(0).text()).toEqual("22");
     expect(cells.at(1).text()).toEqual("22");
   });
+  describe("Adding rows and columns", () => {
+    it("can be done by clicking buttons", () => {
+      const addColumn = jest.fn();
+      const addRow = jest.fn();
+      const wrapper = Enzyme.mount(
+        <Spreadsheet
+          columns={[
+            column([cell("A1"), cell("A2")]),
+            column([cell("B1"), cell("B2")])
+          ]}
+          addColumn={addColumn}
+          addRow={addRow}
+        />
+      );
+      wrapper.find("#add-row").simulate("click");
+      wrapper.find("#add-column").simulate("click");
+      expect(addColumn).toHaveBeenCalledTimes(1);
+      expect(addRow).toHaveBeenCalledTimes(1);
+    });
+  });
   describe("Selecting a cell by clicking", () => {
     it("turns the cell into an input field", () => {
       const wrapper = Enzyme.mount(

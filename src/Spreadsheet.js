@@ -63,7 +63,9 @@ const Spreadsheet = p => (
           <th key={heading}>{heading}</th>
         ))}
         <th>
-          <button onClick={p.addColumn}>+</button>
+          <button id="add-column" onClick={p.addColumn}>
+            +
+          </button>
         </th>
       </tr>
     </thead>
@@ -86,7 +88,9 @@ const Spreadsheet = p => (
       ))}
       <tr>
         <td>
-          <button onClick={p.addRow}>+</button>
+          <button id="add-row" onClick={p.addRow}>
+            +
+          </button>
         </td>
       </tr>
     </tbody>
