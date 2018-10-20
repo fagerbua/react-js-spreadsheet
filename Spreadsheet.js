@@ -42,13 +42,15 @@ const columnHeadings = n =>
 
 const Spreadsheet = p => (
   <table>
-    <tbody>
+    <thead>
       <tr>
         <th>&nbsp;</th>
         {columnHeadings(p.columns.length).map(heading => (
           <th key={heading}>{heading}</th>
         ))}
       </tr>
+    </thead>
+    <tbody>
       {transpose(p.columns).map((row, rowIndex) => (
         <tr key={`row-${rowIndex}`}>
           <th>{rowIndex + 1}</th>
@@ -78,6 +80,6 @@ const ConnectedSpreadsheet = connect(
   })
 )(Spreadsheet);
 
-export const forTesting = { transpose };
+export const forTesting = { Spreadsheet };
 
 export default ConnectedSpreadsheet;
