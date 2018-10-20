@@ -18,7 +18,7 @@ class Cell extends React.Component {
   render() {
     return (
       <div
-        onClick={() => {
+        onDoubleClick={() => {
           if (!this.state.editing) {
             this.setState({ editing: true });
           }

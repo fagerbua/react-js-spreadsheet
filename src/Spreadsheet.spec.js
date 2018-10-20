@@ -57,13 +57,13 @@ describe("Spreadsheet UI", () => {
       expect(addRow).toHaveBeenCalledTimes(1);
     });
   });
-  describe("Selecting a cell by clicking", () => {
+  describe("Selecting a cell by double-clicking", () => {
     it("turns the cell into an input field", () => {
       const wrapper = Enzyme.mount(
         <Spreadsheet columns={[column([cell("42")])]} />
       );
       expect(wrapper.find("input").exists()).toBe(false);
-      wrapper.find("Cell").simulate("click");
+      wrapper.find("Cell").simulate("doubleClick");
       expect(wrapper.find("input").exists()).toBe(true);
     });
     it("focuses the input field", () => {
@@ -73,7 +73,7 @@ describe("Spreadsheet UI", () => {
       wrapper
         .find("Cell")
         .at(1)
-        .simulate("click");
+        .simulate("doubleClick");
       expect(document.activeElement.value).toEqual("edit me");
     });
   });
