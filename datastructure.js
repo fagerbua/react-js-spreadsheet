@@ -24,6 +24,41 @@ export const editedSheet = (sheet, editedCell) =>
         : column
   );
 
+export const computedSheet = sheet =>
+  sheet.map(column => computedColumn(column, sheet));
+const computedColumn = (column, sheet) =>
+  column.map(cell =>
+    computedCell(cell.value, computedValue(cell.value, sheet))
+  );
+
+const computedValue = (value, sheet) => {
+  if (value.length > 0 && value[0] === "=") {
+    return eval(
+      value
+        .substr(1)
+        .replace(
+          /([A-Z]+)([0-9])+/g,
+          (match, p1, p2) =>
+            cellAtIndex(
+              sheet,
+              columnIndexFromLetter(p1),
+              rowIndexFromNumber(p2)
+            ).value
+        )
+    );
+  } else return undefined;
+};
+
+export const computedCell = (enteredValue, computedValue) => ({
+  value: enteredValue,
+  computedValue
+});
+
+const cellAtIndex = (sheet, columnIndex, rowIndex) =>
+  sheet[columnIndex][rowIndex];
+const columnIndexFromLetter = letter => letter.charCodeAt(0) - 65;
+const rowIndexFromNumber = number => number - 1;
+
 export const editedCell = args => ({
   rowIndex: args.rowIndex,
   columnIndex: args.columnIndex,

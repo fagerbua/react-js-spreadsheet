@@ -1,4 +1,12 @@
-import { cell, editedSheet, column, sheet, transpose } from "./datastructure";
+import {
+  cell,
+  column,
+  computedCell,
+  computedSheet,
+  editedSheet,
+  sheet,
+  transpose
+} from "./datastructure";
 
 describe("Matrix transposition", () => {
   test("transpose function turns rows into columns", () => {
@@ -31,6 +39,18 @@ describe("Spreadsheet", () => {
         column([cell("A1"), cell("A2 changed")]),
         column([cell("B1"), cell("B2")]),
         column([cell("C2"), cell("C2")])
+      ])
+    );
+  });
+  it("can have its cells computed", () => {
+    const testSheet = sheet([
+      column([cell("1"), cell("2")]),
+      column([cell("=A1+A2"), cell("=A1-A2")])
+    ]);
+    expect(computedSheet(testSheet)).toEqual(
+      sheet([
+        column([computedCell("1", undefined), computedCell("2", undefined)]),
+        column([computedCell("=A1+A2", 3), computedCell("=A1-A2", -1)])
       ])
     );
   });
