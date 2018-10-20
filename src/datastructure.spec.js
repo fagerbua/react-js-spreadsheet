@@ -5,7 +5,9 @@ import {
   computedSheet,
   editedSheet,
   sheet,
-  transpose
+  transpose,
+  withAddedColumn,
+  withAddedRow
 } from "./datastructure";
 
 describe("Matrix transposition", () => {
@@ -22,25 +24,58 @@ describe("Matrix transposition", () => {
 });
 
 describe("Spreadsheet", () => {
-  it("can be edited by calling a function that returns a new spreadsheet", () => {
-    const testSheet = sheet([
-      column([cell("A1"), cell("A2")]),
-      column([cell("B1"), cell("B2")]),
-      column([cell("C2"), cell("C2")])
-    ]);
-    expect(
-      editedSheet(testSheet, {
-        columnIndex: 0,
-        rowIndex: 1,
-        value: "A2 changed"
-      })
-    ).toEqual(
-      sheet([
-        column([cell("A1"), cell("A2 changed")]),
+  describe("Modifying dimensions", () => {
+    test("Adding a column", () => {
+      const testSheet = sheet([
+        column([cell("A1"), cell("A2")]),
         column([cell("B1"), cell("B2")]),
         column([cell("C2"), cell("C2")])
-      ])
-    );
+      ]);
+      expect(withAddedColumn(testSheet)).toEqual(
+        sheet([
+          column([cell("A1"), cell("A2")]),
+          column([cell("B1"), cell("B2")]),
+          column([cell("C2"), cell("C2")]),
+          column([cell(""), cell("")])
+        ])
+      );
+    });
+    test("Adding a row", () => {
+      const testSheet = sheet([
+        column([cell("A1"), cell("A2")]),
+        column([cell("B1"), cell("B2")]),
+        column([cell("C2"), cell("C2")])
+      ]);
+      expect(withAddedRow(testSheet)).toEqual(
+        sheet([
+          column([cell("A1"), cell("A2"), cell("")]),
+          column([cell("B1"), cell("B2"), cell("")]),
+          column([cell("C2"), cell("C2"), cell("")])
+        ])
+      );
+    });
+  });
+  describe("Editing", () => {
+    it("works by changing one cell at a time", () => {
+      const testSheet = sheet([
+        column([cell("A1"), cell("A2")]),
+        column([cell("B1"), cell("B2")]),
+        column([cell("C2"), cell("C2")])
+      ]);
+      expect(
+        editedSheet(testSheet, {
+          columnIndex: 0,
+          rowIndex: 1,
+          value: "A2 changed"
+        })
+      ).toEqual(
+        sheet([
+          column([cell("A1"), cell("A2 changed")]),
+          column([cell("B1"), cell("B2")]),
+          column([cell("C2"), cell("C2")])
+        ])
+      );
+    });
   });
   it("can have its cells computed", () => {
     const testSheet = sheet([

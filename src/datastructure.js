@@ -71,8 +71,11 @@ export const editedCell = args => ({
   value: args.value
 });
 
-export const withAddedRow = sheet => sheet.map(column => [...column, cell("")]);
+const emptyCell = () => cell("");
+
+export const withAddedRow = sheet =>
+  sheet.map(column => [...column, emptyCell()]);
 export const withAddedColumn = sheet => [
   ...sheet,
-  column(sheet[0].reduce((prev, cur) => [...prev, cell("")], []))
+  column(sheet[0].reduce((prev, cur) => [...prev, emptyCell()], []))
 ];
