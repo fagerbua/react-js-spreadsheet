@@ -33,20 +33,25 @@ const computedColumn = (column, sheet) =>
 
 const computedValue = (value, sheet) => {
   if (value.length > 0 && value[0] === "=") {
-    // eslint-disable-next-line
-    return eval(
-      value
-        .substr(1)
-        .replace(
-          /([A-Z]+)([0-9])+/g,
-          (match, p1, p2) =>
-            cellAtIndex(
-              sheet,
-              columnIndexFromLetter(p1),
-              rowIndexFromNumber(p2)
-            ).value
-        )
-    );
+    try {
+      // eslint-disable-next-line
+      const evaluated = eval(
+        value
+          .substr(1)
+          .replace(
+            /([A-Z]+)([0-9])+/g,
+            (match, p1, p2) =>
+              cellAtIndex(
+                sheet,
+                columnIndexFromLetter(p1),
+                rowIndexFromNumber(p2)
+              ).value
+          )
+      );
+      return evaluated;
+    } catch (e) {
+      return e.toString();
+    }
   } else return undefined;
 };
 
