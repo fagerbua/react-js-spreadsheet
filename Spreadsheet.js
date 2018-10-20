@@ -10,6 +10,11 @@ class Cell extends React.Component {
     super();
     this.state = { editing: false, editedValue: props.enteredValue };
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.editing && !prevState.editing) {
+      this.inputRef.focus();
+    }
+  }
   render() {
     return (
       <div
@@ -26,6 +31,9 @@ class Cell extends React.Component {
       >
         {this.state.editing ? (
           <input
+            ref={ref => {
+              this.inputRef = ref;
+            }}
             type="text"
             style={{ ...cellDimensions, border: "none" }}
             value={this.state.editedValue}

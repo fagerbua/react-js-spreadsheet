@@ -46,5 +46,15 @@ describe("Spreadsheet UI", () => {
       wrapper.find("Cell").simulate("click");
       expect(wrapper.find("input").exists()).toBe(true);
     });
+    it("focuses the input field", () => {
+      const wrapper = Enzyme.mount(
+        <Spreadsheet columns={[column([cell("42"), cell("edit me")])]} />
+      );
+      wrapper
+        .find("Cell")
+        .at(1)
+        .simulate("click");
+      expect(document.activeElement.value).toEqual("edit me");
+    });
   });
 });
