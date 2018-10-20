@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { transpose } from "./datastructure";
 import range from "lodash/range";
 
+const cellDimensions = { width: 100, height: 20 };
+
 class Cell extends React.Component {
   constructor(props) {
     super();
@@ -16,12 +18,16 @@ class Cell extends React.Component {
             this.setState({ editing: true });
           }
         }}
-        style={{ width: 100, height: 20, border: "1px solid black" }}
+        style={{
+          ...cellDimensions,
+          padding: "2px 5px",
+          border: "1px solid black"
+        }}
       >
         {this.state.editing ? (
           <input
             type="text"
-            style={{ width: 100, height: 20, border: "1px solid black" }}
+            style={{ ...cellDimensions, border: "none" }}
             value={this.state.editedValue}
             onChange={e => this.setState({ editedValue: e.target.value })}
             onBlur={() => {
