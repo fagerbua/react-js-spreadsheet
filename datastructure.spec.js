@@ -1,4 +1,4 @@
-import { cell, editedSheet, row, sheet, transpose } from "./datastructure";
+import { cell, editedSheet, column, sheet, transpose } from "./datastructure";
 
 describe("Matrix transposition", () => {
   test("transpose function turns rows into columns", () => {
@@ -16,9 +16,9 @@ describe("Matrix transposition", () => {
 describe("Spreadsheet", () => {
   it("can be edited by calling a function that returns a new spreadsheet", () => {
     const testSheet = sheet([
-      row([cell("A1"), cell("A2")]),
-      row([cell("B1"), cell("B2")]),
-      row([cell("C2"), cell("C2")])
+      column([cell("A1"), cell("A2")]),
+      column([cell("B1"), cell("B2")]),
+      column([cell("C2"), cell("C2")])
     ]);
     expect(
       editedSheet(testSheet, {
@@ -28,9 +28,9 @@ describe("Spreadsheet", () => {
       })
     ).toEqual(
       sheet([
-        row([cell("A1"), cell("A2 changed")]),
-        row([cell("B1"), cell("B2")]),
-        row([cell("C2"), cell("C2")])
+        column([cell("A1"), cell("A2 changed")]),
+        column([cell("B1"), cell("B2")]),
+        column([cell("C2"), cell("C2")])
       ])
     );
   });

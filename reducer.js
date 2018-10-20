@@ -1,10 +1,10 @@
-import { cell, row, sheet, editedSheet } from "./datastructure";
+import { cell, column, sheet, editedSheet } from "./datastructure";
 
 const INITIAL_STATE = {
   sheet: sheet([
-    row([cell("A1"), cell("A2")]),
-    row([cell("B1"), cell("B2")]),
-    row([cell("C2"), cell("C2")])
+    column([cell("A1"), cell("A2")]),
+    column([cell("B1"), cell("B2")]),
+    column([cell("C2"), cell("C2")])
   ])
 };
 
