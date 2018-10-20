@@ -62,6 +62,9 @@ const Spreadsheet = p => (
         {columnHeadings(p.columns.length).map(heading => (
           <th key={heading}>{heading}</th>
         ))}
+        <th>
+          <button onClick={p.addColumn}>+</button>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -81,6 +84,11 @@ const Spreadsheet = p => (
           ))}
         </tr>
       ))}
+      <tr>
+        <td>
+          <button onClick={p.addRow}>+</button>
+        </td>
+      </tr>
     </tbody>
   </table>
 );
@@ -90,6 +98,12 @@ const ConnectedSpreadsheet = connect(
   dispatch => ({
     updateCell: editedCell => {
       dispatch({ type: "CELL_EDITED", payload: { editedCell } });
+    },
+    addColumn: () => {
+      dispatch({ type: "ADD_COLUMN_REQUESTED" });
+    },
+    addRow: () => {
+      dispatch({ type: "ADD_ROW_REQUESTED" });
     }
   })
 )(Spreadsheet);

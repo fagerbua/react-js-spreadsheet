@@ -70,3 +70,9 @@ export const editedCell = args => ({
   columnIndex: args.columnIndex,
   value: args.value
 });
+
+export const withAddedRow = sheet => sheet.map(column => [...column, cell("")]);
+export const withAddedColumn = sheet => [
+  ...sheet,
+  column(sheet[0].reduce((prev, cur) => [...prev, cell("")], []))
+];
