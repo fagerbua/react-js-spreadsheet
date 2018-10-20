@@ -3,7 +3,14 @@
 
 # react-js-spreadsheet
 
-Experimental spreadsheet app. Very early stage. Built for fun and practice, not intended to be particularly useful.
+Built for fun and practice, not intended to be particularly useful.
+
+# Getting started
+
+* Clone the repository
+* `yarn start` launches the dev server
+* `yarn test` runs the tests
+* Hack away!
 
 # Roadmap
 
