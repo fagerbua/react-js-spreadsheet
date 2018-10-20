@@ -2,7 +2,6 @@ import {
   cell,
   column,
   computedSheet,
-  row,
   sheet,
   editedSheet
 } from "./datastructure";

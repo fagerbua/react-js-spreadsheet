@@ -33,6 +33,7 @@ const computedColumn = (column, sheet) =>
 
 const computedValue = (value, sheet) => {
   if (value.length > 0 && value[0] === "=") {
+    // eslint-disable-next-line
     return eval(
       value
         .substr(1)
