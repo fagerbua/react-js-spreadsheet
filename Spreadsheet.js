@@ -6,16 +6,33 @@ import range from "lodash/range";
 class Cell extends React.Component {
   constructor(props) {
     super();
-    this.state = { displayedValue: props.value };
+    this.state = { editing: false, editedValue: props.enteredValue };
   }
   render() {
     return (
-      <input
-        type="text"
-        value={this.state.displayedValue}
-        onChange={e => this.setState({ displayedValue: e.target.value })}
-        onBlur={() => this.props.storeValue(this.state.displayedValue)}
-      />
+      <div
+        onClick={() => {
+          if (!this.state.editing) {
+            this.setState({ editing: true });
+          }
+        }}
+        style={{ width: 100, height: 20, border: "1px solid black" }}
+      >
+        {this.state.editing ? (
+          <input
+            type="text"
+            style={{ width: 100, height: 20, border: "1px solid black" }}
+            value={this.state.editedValue}
+            onChange={e => this.setState({ editedValue: e.target.value })}
+            onBlur={() => {
+              this.props.storeValue(this.state.editedValue);
+              this.setState({ editing: false });
+            }}
+          />
+        ) : (
+          <span>{this.props.computedValue || this.props.enteredValue}</span>
+        )}
+      </div>
     );
   }
 }
@@ -38,7 +55,8 @@ const Spreadsheet = p => (
           {row.map((cell, columnIndex) => (
             <td key={`row-${rowIndex}-col-${columnIndex}`}>
               <Cell
-                value={cell.value}
+                enteredValue={cell.value}
+                computedValue={cell.computedValue}
                 storeValue={value =>
                   p.updateCell({ columnIndex, rowIndex, value })
                 }
