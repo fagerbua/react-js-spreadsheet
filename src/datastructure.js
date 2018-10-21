@@ -38,6 +38,7 @@ const computedValue = (value, sheet) => {
       const evaluated = eval(
         value
           .substr(1)
+          .replace(/[a-z]+[0-9]+/g, match => match.toUpperCase())
           .replace(
             /([A-Z]+)([0-9])+/g,
             (match, p1, p2) =>
