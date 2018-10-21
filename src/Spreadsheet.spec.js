@@ -1,8 +1,10 @@
-import * as React from "react";
 import * as Enzyme from "enzyme";
+import * as React from "react";
+
+import { cell, column, computedCell } from "./datastructure";
+
 import Adapter from "enzyme-adapter-react-16";
 import { forTesting } from "./Spreadsheet";
-import { column, computedCell, cell } from "./datastructure";
 
 const { Spreadsheet } = forTesting;
 Enzyme.configure({ adapter: new Adapter() });
@@ -65,6 +67,34 @@ describe("Spreadsheet UI", () => {
       expect(wrapper.find("input").exists()).toBe(false);
       wrapper.find("Cell").simulate("doubleClick");
       expect(wrapper.find("input").exists()).toBe(true);
+    });
+    it("focuses the input field", () => {
+      const wrapper = Enzyme.mount(
+        <Spreadsheet columns={[column([cell("42"), cell("edit me")])]} />
+      );
+      wrapper
+        .find("Cell")
+        .at(1)
+        .simulate("doubleClick");
+      expect(document.activeElement.value).toEqual("edit me");
+    });
+  });
+  describe("Editing a cell", () => {
+    it("can be finished by pressing Enter", () => {
+      const wrapper = Enzyme.mount(
+        <Spreadsheet columns={[column([cell("42")])]} updateCell={() => ({})} />
+      );
+      wrapper.find("Cell").simulate("doubleClick");
+      wrapper.find("Cell input").simulate("keyDown", { key: "Enter" });
+      expect(wrapper.find("input").exists()).toBe(false);
+    });
+    it("can be finished by leaving the input element", () => {
+      const wrapper = Enzyme.mount(
+        <Spreadsheet columns={[column([cell("42")])]} updateCell={() => ({})} />
+      );
+      wrapper.find("Cell").simulate("doubleClick");
+      wrapper.find("Cell input").simulate("blur");
+      expect(wrapper.find("input").exists()).toBe(false);
     });
     it("focuses the input field", () => {
       const wrapper = Enzyme.mount(
