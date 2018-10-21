@@ -8,7 +8,8 @@ Built for fun and practice, not intended to be particularly useful.
 # Getting started
 
 * Clone the repository
-* `yarn start` launches the dev server
+* `yarn install` installs dependencies
+* `yarn start` launches the dev server on http://localhost:3000
 * `yarn test` runs the tests
 * Hack away!
 
