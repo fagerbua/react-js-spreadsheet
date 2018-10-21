@@ -31,23 +31,30 @@ const computedColumn = (column, sheet) =>
     computedCell(cell.value, computedValue(cell.value, sheet))
   );
 
+const requiresComputation = value => value.length > 0 && value[0] === "=";
+
+const substituteCellReferences = (value, sheet) =>
+  value
+    .substr(1)
+    .replace(/[a-z]+[0-9]+/g, match => match.toUpperCase())
+    .replace(/([A-Z]+)([0-9])+/g, (match, p1, p2) => {
+      const referencedCell = cellAtIndex(
+        sheet,
+        columnIndexFromLetter(p1),
+        rowIndexFromNumber(p2)
+      );
+      if (requiresComputation(referencedCell.value)) {
+        return substituteCellReferences(referencedCell.value, sheet);
+      } else {
+        return referencedCell.value;
+      }
+    });
+
 const computedValue = (value, sheet) => {
-  if (value.length > 0 && value[0] === "=") {
+  if (requiresComputation(value)) {
     try {
       // eslint-disable-next-line
-      const evaluated = eval(
-        value
-          .substr(1)
-          .replace(
-            /([A-Z]+)([0-9])+/g,
-            (match, p1, p2) =>
-              cellAtIndex(
-                sheet,
-                columnIndexFromLetter(p1),
-                rowIndexFromNumber(p2)
-              ).value
-          )
-      );
+      const evaluated = eval(substituteCellReferences(value, sheet));
       return evaluated;
     } catch (e) {
       return e.toString();

@@ -1,7 +1,8 @@
 import * as React from "react";
+
 import { connect } from "react-redux";
-import { transpose } from "./datastructure";
 import range from "lodash/range";
+import { transpose } from "./datastructure";
 
 const cellDimensions = { width: 100, height: 20 };
 
@@ -15,6 +16,10 @@ class Cell extends React.Component {
       this.inputRef.focus();
     }
   }
+  storeEditedValue = () => {
+    this.props.storeValue(this.state.editedValue);
+    this.setState({ editing: false });
+  };
   render() {
     return (
       <div
@@ -38,9 +43,11 @@ class Cell extends React.Component {
             style={{ ...cellDimensions, border: "none" }}
             value={this.state.editedValue}
             onChange={e => this.setState({ editedValue: e.target.value })}
-            onBlur={() => {
-              this.props.storeValue(this.state.editedValue);
-              this.setState({ editing: false });
+            onBlur={this.storeEditedValue}
+            onKeyDown={e => {
+              if (e.key === "Enter") {
+                this.storeEditedValue();
+              }
             }}
           />
         ) : (
