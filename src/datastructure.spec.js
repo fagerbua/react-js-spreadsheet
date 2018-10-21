@@ -105,5 +105,19 @@ describe("Spreadsheet", () => {
         ])
       );
     });
+    it("allows a computed cell value to depend on the value of another computed value", () => {
+      const testSheet = sheet([
+        column([cell("1"), cell("=A1+1"), cell("=A2+1")])
+      ]);
+      expect(computedSheet(testSheet)).toEqual(
+        sheet([
+          column([
+            computedCell("1", undefined),
+            computedCell("=A1+1", 2),
+            computedCell("=A2+1", 3)
+          ])
+        ])
+      );
+    });
   });
 });
